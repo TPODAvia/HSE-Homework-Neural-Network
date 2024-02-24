@@ -19,6 +19,12 @@ cd HW2
 pip install -r requirements.txt
 ```
 
+Because of github that allows only 25Mb of file we need to combine the chuck of datasets to one train dataset.
+
+```bash
+python Lab2/combine_small_csv.py
+```
+
 For torch libraries we need to go to the official website and install torch with Cuda
 https://pytorch.org/get-started/locally/
 
