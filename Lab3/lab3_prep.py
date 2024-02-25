@@ -43,14 +43,14 @@ class Lab3Class:
 
     def get_nn_param(self):
         input_size = 5
-        output_size = 1
+        output_size = 2
         learning_rate = 0.01
-        loss_method = torch.nn.BCELoss()
+        loss_method = torch.nn.CrossEntropyLoss()
         return input_size, output_size, learning_rate, loss_method
     
-    def output_mod(self, output):
-        output = torch.sigmoid(output)
-        return output
+    def output_mod(self, output, target):
+        # output = torch.sigmoid(output)
+        return output, target.long()
     
     def lab_dir(self):
         return f'D:\\Coding_AI\\HW2\\Lab3\\result\\'

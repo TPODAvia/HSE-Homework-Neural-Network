@@ -1,19 +1,23 @@
+#!/usr/bin/env python3
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 
-from torch.utils.tensorboard import SummaryWriter
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Device is used:")
+print(device)
 
-import sys
+# from torch.utils.tensorboard import SummaryWriter
+# import sys
 
 from model import Net
 from Lab1.lab1_prep import Lab1Class
 from Lab2.lab2_prep import Lab2Class
 from Lab3.lab3_prep import Lab3Class
 
-lab = Lab3Class()
+lab = Lab1Class()
 
 X, y = lab.preprocess_fit()
 data_input_size, data_output_size, learning_rate, loss_method = lab.get_nn_param()
@@ -47,39 +51,39 @@ model = model.to(device)
 # Define the loss function and optimizer
 criterion = loss_method
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-
-writer = SummaryWriter()
+# writer = SummaryWriter()
 
 print("Training...")
 # Training loop
-num_epochs =  500
+num_epochs =  5000
 for epoch in range(num_epochs):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
-        output = lab.output_mod(model(data))
-        target = target.unsqueeze(1)  # Add an extra dimension to match the output shape
-        loss = criterion(output, target)
+        output_mod, target_mod = lab.output_mod(model(data), target)
+        loss = criterion(output_mod,target_mod)
         loss.backward()
         optimizer.step()
 
         # Log the loss to TensorBoard
-        writer.add_scalar('Loss/train', loss.item(), epoch)
+        # writer.add_scalar('Loss/train', loss.item(), epoch)
 
     # Evaluation loop
     model.eval()
     with torch.no_grad():
         total_loss =  0
         for data, target in val_loader:
+            data, target = data.to(device), target.to(device)
             output = model(data)
-            output = lab.output_mod(model(data))
-            target = target.unsqueeze(1)  # Add an extra dimension to match the output shape
-            loss = criterion(output, target)
+            output_mod, target_mod = lab.output_mod(model(data), target)
+            loss = criterion(output_mod,target_mod)
             total_loss += loss.item()
         avg_loss = total_loss / len(val_loader)
-        print(f'Epoch: {epoch+1}, Validation Loss: {avg_loss:.4f}')
+        print(f'Epoch: {epoch+1}, Validation Loss: {loss} {output} {target}')
 
-        writer.add_scalar('Loss/Validation', avg_loss, epoch)
+        # writer.add_scalar('Loss/Validation', avg_loss, epoch)
 
-writer.close()
-torch.save(model.state_dict(), 'model.pth')
+    if epoch%500 == 0: # every 500 epoch save the model
+        torch.save(model.state_dict(), 'model.pth')
+ 

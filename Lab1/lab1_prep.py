@@ -58,8 +58,10 @@ class Lab1Class:
         loss_method = torch.nn.MSELoss()
         return input_size, output_size, learning_rate, loss_method
 
-    def output_mod(self, output):
-        return output
+    def output_mod(self, output, target):
+        # Add an extra dimension to match the output shape
+        # loss = criterion(output, target)
+        return output, target.unsqueeze(1)
     
     def lab_dir(self):
         return 'D:\\Coding_AI\\HW2\\Lab1\\result\\'

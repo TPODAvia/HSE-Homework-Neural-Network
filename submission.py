@@ -27,7 +27,8 @@ test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 predictions = []
 with torch.no_grad():
     for data, target in test_loader:
-        output = lab.output_mod(model(data))
+        output = lab.output_mod(model(data)).argmax(1)
+        # correct += (y_pred.argmax(1) == y).type(torch.float).sum().item()
         predictions.append(output.item())
 
 x_data = pd.Series(predictions)
@@ -62,3 +63,4 @@ if not os.path.exists(directory):
 
 
 predictions_df.drop('True', axis = 1).to_csv(file_path, index=False)
+ 

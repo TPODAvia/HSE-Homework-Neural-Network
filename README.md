@@ -28,6 +28,8 @@ python Lab2/combine_small_csv.py
 For torch libraries we need to go to the official website and install torch with Cuda
 https://pytorch.org/get-started/locally/
 
+For Jetson Nano please refer this tutorial:
+
 ### Usage
 
 1. Modify the `/Lab*/lab*_prep.py` based on your dataset.
@@ -51,3 +53,4 @@ python test.py
 ```bash
 python submission.py
 ```
+ 
