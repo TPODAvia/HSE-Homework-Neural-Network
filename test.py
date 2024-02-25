@@ -5,8 +5,8 @@ from Lab1.lab1_prep import Lab1Class
 from Lab2.lab2_prep import Lab2Class
 from Lab3.lab3_prep import Lab3Class
 
-PATH = "model.pth"
 lab = Lab3Class()
+PATH = f"{lab.lab_dir()}model.pth"
 
 data_input_size, data_output_size, *_ = lab.get_nn_param()
 model = Net(input_size=data_input_size, output_size=data_output_size)

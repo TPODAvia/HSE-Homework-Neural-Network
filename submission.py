@@ -11,7 +11,7 @@ from Lab3.lab3_prep import Lab3Class
 lab = Lab3Class()
 
 data_input_size, data_output_size, *_ = lab.get_nn_param()
-PATH = 'model.pth'
+PATH = f"{lab.lab_dir()}model.pth"
 model = Net(input_size=data_input_size, output_size=data_output_size)
 model.load_state_dict(torch.load(PATH))
 model.eval()

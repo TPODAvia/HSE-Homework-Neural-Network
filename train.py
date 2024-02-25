@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Device is used:")
@@ -53,9 +54,12 @@ criterion = loss_method
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 # writer = SummaryWriter()
 
+if not os.path.exists(lab.lab_dir()):
+    os.mkdir(lab.lab_dir())
+
 print("Training...")
 # Training loop
-num_epochs =  5000
+num_epochs =  50000
 for epoch in range(num_epochs):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -85,5 +89,5 @@ for epoch in range(num_epochs):
         # writer.add_scalar('Loss/Validation', avg_loss, epoch)
 
     if epoch%500 == 0: # every 500 epoch save the model
-        torch.save(model.state_dict(), 'model.pth')
+        torch.save(model.state_dict(), f'{lab.lab_dir()}model.pth')
  
