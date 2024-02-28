@@ -41,7 +41,7 @@ class Lab1Class:
         y = pd.read_csv('D:\\CodingAI\\HW2\\Lab1\\sample_submission.csv')
         y_id = y['Id']
         y = y['Price'].astype(int)
-
+        y = y.astype(float)
         # X = df.drop(['Id', 'Price', 'Room', 'Size', 'Floor', 'District', 'FloorsTotal'], axis=1)
         # y = pd.read_csv('D:\\CodingAI\\HW2\\Lab1\\sample_submission.csv')
         # y_id = df['Id']

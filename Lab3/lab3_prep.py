@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.utils import resample
 import torch
+from imblearn.over_sampling import SMOTE, ADASYN
 
 class Lab3Class:
 
@@ -21,16 +22,21 @@ class Lab3Class:
         # Step  2: Rename the target column
         df = df.rename(columns={'y': 'output'})
 
-        # Step  4: Now we need to obtain the imbalance dataset
-        majority_class = df[df['output'] ==  0]
-        minority_class = df[df['output'] ==  1]
-        minority_upsampled = resample(minority_class, replace=True, n_samples=len(majority_class), random_state=42)
-        balanced_data = pd.concat([majority_class, minority_upsampled])
+        # # Step  4: Now we need to obtain the imbalance dataset
+        # majority_class = df[df['output'] ==  0]
+        # minority_class = df[df['output'] ==  1]
+        # minority_upsampled = resample(minority_class, replace=True, n_samples=len(majority_class), random_state=42)
+        # balanced_data = pd.concat([majority_class, minority_upsampled])
 
-        # Step  7: Split into features and target
-        X = balanced_data.drop(['id', 'output'], axis=1)
-        y = balanced_data['output']
-        # y = balanced_data[balanced_data['output'] ==  1]
+        # # Step  7: Split into features and target
+        # X = balanced_data.drop(['id', 'output'], axis=1)
+        # y = balanced_data['output']
+        # # y = balanced_data[balanced_data['output'] ==  1]
+
+        X = df.drop(['id', 'output'], axis = 1).reset_index(drop = True)
+        y = df['output'].reset_index(drop = True)
+        X, y = SMOTE().fit_resample(X,y)
+
         return X, y
 
     def preprocess_test(self):
@@ -69,7 +75,12 @@ if __name__ == '__main__':
     lab = Lab3Class()
     data, target = lab.preprocess_fit()
     
-    # print('#'*80)
-    # print(lab.check_nan_in_dataset(data))
-    # print('#'*80)
-    # print(lab.check_nan_in_dataset(target))
+    print('#'*80)
+    print(lab.check_nan_in_dataset(data))
+    print('#'*80)
+    print(lab.check_nan_in_dataset(target))
+    
+    # Load the test data
+    data.to_csv("data_out.csv")
+    target.to_csv("target_out.csv")
+    

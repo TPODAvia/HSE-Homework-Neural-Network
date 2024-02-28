@@ -18,7 +18,7 @@ from Lab1.lab1_prep import Lab1Class
 from Lab2.lab2_prep import Lab2Class
 from Lab3.lab3_prep import Lab3Class
 
-lab = Lab3Class()
+lab = Lab2Class()
 
 X, y = lab.preprocess_fit()
 data_input_size, data_output_size, learning_rate, loss_method = lab.get_nn_param()
