@@ -8,12 +8,12 @@ class Lab3Class:
         pass
 
     def preprocess_fit(self):
-        df = pd.read_csv('D:\\Coding_AI\\HW2\\Lab3\\train.csv')
+        df = pd.read_csv('D:\\CodingAI\\HW2\\Lab3\\train.csv')
         X, y = self.preprocess(df)
         return X, y
 
     def preprocess_fit1000(self):
-        df = pd.read_csv('D:\\Coding_AI\\HW2\\Lab3\\train1000.csv')
+        df = pd.read_csv('D:\\CodingAI\\HW2\\Lab3\\train1000.csv')
         X, y = self.preprocess(df)
         return X, y
     
@@ -34,8 +34,8 @@ class Lab3Class:
         return X, y
 
     def preprocess_test(self):
-        df = pd.read_csv('D:\\Coding_AI\\HW2\\Lab3\\test.csv')
-        df_result = pd.read_csv('D:\\Coding_AI\\HW2\\Lab3\\sample_submission.csv')
+        df = pd.read_csv('D:\\CodingAI\\HW2\\Lab3\\test.csv')
+        df_result = pd.read_csv('D:\\CodingAI\\HW2\\Lab3\\sample_submission.csv')
         X = df.drop('id', axis = 1)
         y = df_result['y']
         id_firm = df_result['id']
@@ -47,13 +47,19 @@ class Lab3Class:
         learning_rate = 0.01
         loss_method = torch.nn.CrossEntropyLoss()
         return input_size, output_size, learning_rate, loss_method
-    
+
+
     def output_mod(self, output, target):
-        # output = torch.sigmoid(output)
+        # Add an extra dimension to match the output shape
+        # loss = criterion(output, target)
         return output, target.long()
-    
+
+    def output_mod_test(self, output, target):
+        # output = torch.sigmoid(output)
+        return output.argmax(1), target.long()
+
     def lab_dir(self):
-        return f'D:\\Coding_AI\\HW2\\Lab3\\result\\'
+        return f'D:\\CodingAI\\HW2\\Lab3\\result\\'
     
     def check_nan_in_dataset(self, data):
         return data.isnull().sum()

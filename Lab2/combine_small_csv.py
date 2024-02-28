@@ -14,4 +14,4 @@ def combine_csv_files(directory, output_file):
     combined_data.to_csv(output_file, index=False)
 
 # Usage
-combine_csv_files('D:\\Coding_AI\\HW2\\Lab2\\train_dataset_combine', 'D:\\Coding_AI\HW2\\Lab2\\train.csv')
+combine_csv_files('D:\\CodingAI\\HW2\\Lab2\\train_dataset_combine', 'D:\\CodingAI\HW2\\Lab2\\train.csv')

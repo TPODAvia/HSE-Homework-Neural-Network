@@ -4,8 +4,8 @@
 
 Clone the repository
 ```bash
-mkdir Coding_AI
-cd Coding_AI
+mkdir CodingAI
+cd CodingAI
 git clone https://github.com/TPODAvia/HW2
 ```
 Initiate the virtual environment

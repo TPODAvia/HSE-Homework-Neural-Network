@@ -18,4 +18,4 @@ def split_large_csv(file_path, max_size_mb=24):
                 chunk.to_csv(f, index=False)
 
 # Usage
-split_large_csv('D:\\Coding_AI\\HW2\\Lab2\\train.csv')
+split_large_csv('D:\\CodingAI\\HW2\\Lab2\\train.csv')

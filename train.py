@@ -18,13 +18,13 @@ from Lab1.lab1_prep import Lab1Class
 from Lab2.lab2_prep import Lab2Class
 from Lab3.lab3_prep import Lab3Class
 
-lab = Lab1Class()
+lab = Lab3Class()
 
 X, y = lab.preprocess_fit()
 data_input_size, data_output_size, learning_rate, loss_method = lab.get_nn_param()
 print(f"Input shape: {data_input_size} {data_output_size}")
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 # print(y_train)
 
 # Convert pandas DataFrames to PyTorch tensors
@@ -37,8 +37,8 @@ y_val_tensor = torch.tensor(y_val.values, dtype=torch.float32)
 # Create TensorDataset and DataLoader objects
 train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
 val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=1024, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=1024, shuffle=False)
 
 # Instantiate the network
 model = Net(input_size=data_input_size, output_size=data_output_size)
@@ -59,7 +59,7 @@ if not os.path.exists(lab.lab_dir()):
 
 print("Training...")
 # Training loop
-num_epochs =  50000
+num_epochs =  5001
 for epoch in range(num_epochs):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -84,10 +84,11 @@ for epoch in range(num_epochs):
             loss = criterion(output_mod,target_mod)
             total_loss += loss.item()
         avg_loss = total_loss / len(val_loader)
-        print(f'Epoch: {epoch+1}, Validation Loss: {loss} {output} {target}')
+        # print(f'Epoch: {epoch+1}, Validation Loss: {loss} {output} {target}')
+        print(f'Epoch: {epoch+1}, Validation Loss: {avg_loss}')
 
         # writer.add_scalar('Loss/Validation', avg_loss, epoch)
 
-    if epoch%500 == 0: # every 500 epoch save the model
+    if epoch%500 == 0 and epoch != 0: # every 500 epoch save the model
         torch.save(model.state_dict(), f'{lab.lab_dir()}model.pth')
  
