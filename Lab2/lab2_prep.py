@@ -10,7 +10,7 @@ import sys
 class Lab2Class:
 
     def __init__(self):
-        self.number = 0
+        self.number = 110
 
     def preprocess_fit(self):
         # Step  1: Load the dataset
@@ -43,13 +43,14 @@ class Lab2Class:
         vif_data['Features'] = X_resample.columns
         vif_data['VIF'] = [variance_inflation_factor(X_resample.values, i) for i in range(len(X_resample.columns))]
 
-        while any(vif_data['VIF']>=2.8):
-            i  = vif_data['VIF'].idxmax()
-            X_resample.drop(X_resample.columns[i], axis = 1, inplace = True)
-            X_resample.reset_index(drop =True)
-            vif_data = pd.DataFrame()
-            vif_data['Features'] = X_resample.columns
-            vif_data['VIF'] = [variance_inflation_factor(X_resample.values, i) for i in range(len(X_resample.columns))]
+        # This takes way too long to compute
+        # while any(vif_data['VIF']>=2.8):
+        #     i  = vif_data['VIF'].idxmax()
+        #     X_resample.drop(X_resample.columns[i], axis = 1, inplace = True)
+        #     X_resample.reset_index(drop =True)
+        #     vif_data = pd.DataFrame()
+        #     vif_data['Features'] = X_resample.columns
+        #     vif_data['VIF'] = [variance_inflation_factor(X_resample.values, i) for i in range(len(X_resample.columns))]
 
         scaler = StandardScaler()
         X = pd.DataFrame(scaler.fit_transform(X_resample), columns = X_resample.columns)
