@@ -11,21 +11,21 @@ class Lab1Class:
     def __init__(self):
         self.label_encoder = LabelEncoder()
         self.scaler = MinMaxScaler()
-        self.number = 29
+        self.number = 150
 
     def preprocess_fit(self):
         df = pd.read_csv('D:\\CodingAI\\HW2\\Lab1\\train.csv')
 
         print(df)
         df.rename(columns={'Price': 'output'}, inplace=True)
-        X = df.drop(['Id', 'output', 'Room', 'Size', 'Floor','District', 'FloorsTotal'], axis=1)
+        X = df.drop(['Id', 'output', 'Room', 'Size', 'Floor', 'FloorsTotal'], axis=1)
         y = df['output']
 
         d = defaultdict(LabelEncoder)
         fit =  X.apply(lambda x: d[x.name].fit_transform(x))
         joblib.dump(d, 'label_encoder_dict.joblib')
 
-        one_hot_encoder = OneHotEncoder(sparse=False)
+        one_hot_encoder = OneHotEncoder(sparse_output=False)
         fit = pd.DataFrame(one_hot_encoder.fit_transform(fit))
         joblib.dump(one_hot_encoder, 'one_hot_encoder.joblib')
 
@@ -37,7 +37,7 @@ class Lab1Class:
 
     def preprocess_test(self):
         df = pd.read_csv('D:\\CodingAI\\HW2\\Lab1\\test.csv')
-        X = df.drop(['Id', 'Room', 'Size', 'Floor', 'District', 'FloorsTotal'], axis=1)
+        X = df.drop(['Id', 'Room', 'Size', 'Floor', 'FloorsTotal'], axis=1)
         y = pd.read_csv('D:\\CodingAI\\HW2\\Lab1\\sample_submission.csv')
         y_id = y['Id']
         y = y['Price'].astype(int)

@@ -9,18 +9,26 @@ from imblearn.ensemble import BalancedRandomForestClassifier
 data = pd.read_csv(r'D:\CodingAI\HW2\Lab2\train.csv')
 
 # Split the dataset into features and the target variable
-X = data.drop('BANKR', axis=1)
+X = data.drop(['ID_FIRM','BANKR'], axis=1)
 y = data['BANKR']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
 
 # Use BalancedRandomForestClassifier instead of RandomForestClassifier
 clf = BalancedRandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train_scaled, y_train)
-y_pred = clf.predict(X_test_scaled)
 
+y_pred = clf.predict(X_test)
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
+
+
+test = pd.read_csv(r"D:\CodingAI\HW2\Lab2\test.csv")
+X_test = test.drop(['ID_FIRM'], axis=1)
+X_test_scaled = scaler.transform(X_test)
+y_pred = clf.predict(X_test_scaled)
+out_data = pd.DataFrame({'ID_FIRM': test['ID_FIRM'], 'BANKR': y_pred})
+out_data.to_csv(r'D:\CodingAI\HW2\Lab2\result\result_ML.csv', index=False)

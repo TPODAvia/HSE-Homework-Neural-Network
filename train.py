@@ -51,7 +51,7 @@ model = model.to(device)
 
 # Define the loss function and optimizer
 criterion = loss_method
-optimizer = optim.Adam(model.parameters(), lr=0.1)
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 # writer = SummaryWriter()
 
 if not os.path.exists(lab.lab_dir()):

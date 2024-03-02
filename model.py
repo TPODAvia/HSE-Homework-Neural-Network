@@ -8,6 +8,7 @@ class Net(nn.Module):
         self.linear_relu1 = nn.Linear(input_size,  128)
         self.linear_relu2 = nn.Linear(128,  256)
         self.linear_relu3 = nn.Linear(256,  256)
+        self.linear_relu4 = nn.Linear(256,  256)
         self.linear5 = nn.Linear(256, output_size)
         
         # Dropout layers
@@ -17,15 +18,19 @@ class Net(nn.Module):
     def forward(self, x):
         
         y_pred = self.linear_relu1(x)
-        # y_pred = nn.functional.tanh(y_pred)
-        # y_pred = self.dropout1(y_pred)  # Apply dropout after ReLU
+        y_pred = nn.functional.relu(y_pred)
+        y_pred = self.dropout1(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear_relu2(y_pred)
-        # y_pred = nn.functional.tanh(y_pred)
+        y_pred = nn.functional.relu(y_pred)
         # y_pred = self.dropout2(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear_relu3(y_pred)
-        y_pred = nn.functional.tanh(y_pred)
+        y_pred = nn.functional.relu(y_pred)
+        # y_pred = self.dropout2(y_pred)  # Apply dropout after ReLU
+
+        y_pred = self.linear_relu4(y_pred)
+        y_pred = nn.functional.relu(y_pred)
         # y_pred = self.dropout2(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear5(y_pred)
