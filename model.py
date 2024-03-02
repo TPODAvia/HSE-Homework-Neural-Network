@@ -17,15 +17,15 @@ class Net(nn.Module):
     def forward(self, x):
         
         y_pred = self.linear_relu1(x)
-        y_pred = nn.functional.relu(y_pred)
+        # y_pred = nn.functional.tanh(y_pred)
         # y_pred = self.dropout1(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear_relu2(y_pred)
-        y_pred = nn.functional.relu(y_pred)
+        # y_pred = nn.functional.tanh(y_pred)
         # y_pred = self.dropout2(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear_relu3(y_pred)
-        y_pred = nn.functional.relu(y_pred)
+        y_pred = nn.functional.tanh(y_pred)
         # y_pred = self.dropout2(y_pred)  # Apply dropout after ReLU
 
         y_pred = self.linear5(y_pred)

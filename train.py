@@ -18,7 +18,7 @@ from Lab1.lab1_prep import Lab1Class
 from Lab2.lab2_prep import Lab2Class
 from Lab3.lab3_prep import Lab3Class
 
-lab = Lab2Class()
+lab = Lab1Class()
 
 X, y = lab.preprocess_fit()
 data_input_size, data_output_size, learning_rate, loss_method = lab.get_nn_param()
@@ -51,7 +51,7 @@ model = model.to(device)
 
 # Define the loss function and optimizer
 criterion = loss_method
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+optimizer = optim.Adam(model.parameters(), lr=0.1)
 # writer = SummaryWriter()
 
 if not os.path.exists(lab.lab_dir()):
